@@ -2,7 +2,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //System.out.println(Add("1\n2,3,-6"));
+        System.out.println(Add("1002"));
     }
     
     public static int Add(String numbers){
@@ -15,6 +15,8 @@ public class Main {
                  // if input string contains only 1 number, return that number
                   int n = Integer.parseInt(numbers.split("\n|,")[0]);
                   if(n < 0) throw new Exception("Negatives not allowed: " + n);
+
+                  if(n >= 1000) n = 0;
                   return n;
              }
              catch (Exception e) {
@@ -33,6 +35,9 @@ public class Main {
 
                 b = Integer.parseInt(numbers.split("\n|,")[1]);
                 if(b < 0) throw new Exception("Negatives not allowed: " + b);
+
+                if(a >= 1000) a = 0;
+                if(b >= 1000) b = 0;
                 return a + b;
             }
             catch (NumberFormatException e) {
@@ -59,6 +64,8 @@ public class Main {
                         e.printStackTrace();
                     }
                 }
+
+                if(arr[i] >= 1000) arr[i] = 0;
                 sum += arr[i];
             }
 
