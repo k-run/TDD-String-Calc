@@ -1,12 +1,16 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(Add("//[##]\n1##2##3##"));
+   //     System.out.println(Add("//[*][%]\\n1*2%3"));
     }
     
     public static int Add(String numbers){
-        String delimiter = getDelimiter(numbers);
+        String delimiterList = getDelimiter(numbers);
 
         String numberWithoutDelimiterFormat = getNumberWithoutDelimiterFormat(numbers);
 
@@ -14,10 +18,10 @@ public class Main {
         if (numberWithoutDelimiterFormat.length() == 0) return 0;
 
         // if input string contains only 1 value
-        if (numberWithoutDelimiterFormat.split(delimiter).length == 1) {
+        if (numberWithoutDelimiterFormat.split(delimiterList).length == 1) {
              try{
                  // if input string contains only 1 number, return that number
-                  int n = Integer.parseInt(numberWithoutDelimiterFormat.split(delimiter)[0]);
+                  int n = Integer.parseInt(numberWithoutDelimiterFormat.split(delimiterList)[0]);
                   if(n < 0) throw new Exception("Negatives not allowed: " + n);
 
                   if(n >= 1000) n = 0;
@@ -31,14 +35,14 @@ public class Main {
         }
 
         // if input string contains of 2 numbers, add them and return the result
-        if(numberWithoutDelimiterFormat.split(delimiter).length == 2) {
+        if(numberWithoutDelimiterFormat.split(delimiterList).length == 2) {
             int a = 0, b = 0;
 
             try {
-                a = Integer.parseInt(numberWithoutDelimiterFormat.split(delimiter)[0]);
+                a = Integer.parseInt(numberWithoutDelimiterFormat.split(delimiterList)[0]);
                 if(a < 0) throw new Exception("Negatives not allowed: " + a);
 
-                b = Integer.parseInt(numberWithoutDelimiterFormat.split(delimiter)[1]);
+                b = Integer.parseInt(numberWithoutDelimiterFormat.split(delimiterList)[1]);
                 if(b < 0) throw new Exception("Negatives not allowed: " + b);
 
                 if(a >= 1000) a = 0;
@@ -56,7 +60,7 @@ public class Main {
 
         // allowing unknown number of numbers for add operation
 
-            String[] str = numberWithoutDelimiterFormat.split(delimiter);
+            String[] str = numberWithoutDelimiterFormat.split(delimiterList);
             int[] arr = new int[str.length];
 
             int sum = 0;
@@ -78,13 +82,28 @@ public class Main {
     }
 
     public static String getDelimiter(String numbers){
-        String delimiter = numbers.substring(1 + numbers.indexOf('['), numbers.lastIndexOf(']'));
-        return delimiter;
+        StringBuilder delimitersList = new StringBuilder();
+
+        String[] delimiterArray = numbers.substring(2, numbers.indexOf("\\n"))
+                .replaceAll("]", ",")
+                .replaceAll("\\[", "")
+                .split(",");
+
+        for (int i = 0; i < delimiterArray.length; i++) {
+            String delimiter = "";
+
+            delimiter = "\\" + delimiterArray[i] + "|";
+
+            delimitersList.append(delimiter);
+        }
+
+        delimitersList.deleteCharAt(delimitersList.length()-1);
+
+        return delimitersList.toString();
     }
 
     public static String getNumberWithoutDelimiterFormat(String numbers){
-        numbers = numbers.substring(numbers.indexOf("\n")+1);
-        System.out.println("numbers = " + numbers);
+        numbers = numbers.substring(numbers.indexOf("\\n") + 2);
         return numbers;
     }
 }
