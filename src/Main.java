@@ -2,18 +2,22 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(Add("1002"));
+        System.out.println(Add("//[##]\n1##2##3##"));
     }
     
     public static int Add(String numbers){
+        String delimiter = getDelimiter(numbers);
+
+        String numberWithoutDelimiterFormat = getNumberWithoutDelimiterFormat(numbers);
+
         // if input string is empty, return 0
-        if (numbers.length() == 0) return 0;
+        if (numberWithoutDelimiterFormat.length() == 0) return 0;
 
         // if input string contains only 1 value
-        if (numbers.split("\n|,").length == 1) {
+        if (numberWithoutDelimiterFormat.split(delimiter).length == 1) {
              try{
                  // if input string contains only 1 number, return that number
-                  int n = Integer.parseInt(numbers.split("\n|,")[0]);
+                  int n = Integer.parseInt(numberWithoutDelimiterFormat.split(delimiter)[0]);
                   if(n < 0) throw new Exception("Negatives not allowed: " + n);
 
                   if(n >= 1000) n = 0;
@@ -27,13 +31,14 @@ public class Main {
         }
 
         // if input string contains of 2 numbers, add them and return the result
-        if(numbers.split("\n|,").length == 2) {
+        if(numberWithoutDelimiterFormat.split(delimiter).length == 2) {
             int a = 0, b = 0;
+
             try {
-                a = Integer.parseInt(numbers.split("\n|,")[0]);
+                a = Integer.parseInt(numberWithoutDelimiterFormat.split(delimiter)[0]);
                 if(a < 0) throw new Exception("Negatives not allowed: " + a);
 
-                b = Integer.parseInt(numbers.split("\n|,")[1]);
+                b = Integer.parseInt(numberWithoutDelimiterFormat.split(delimiter)[1]);
                 if(b < 0) throw new Exception("Negatives not allowed: " + b);
 
                 if(a >= 1000) a = 0;
@@ -51,7 +56,7 @@ public class Main {
 
         // allowing unknown number of numbers for add operation
 
-            String[] str = numbers.split("\n|,");
+            String[] str = numberWithoutDelimiterFormat.split(delimiter);
             int[] arr = new int[str.length];
 
             int sum = 0;
@@ -70,5 +75,16 @@ public class Main {
             }
 
             return sum;
+    }
+
+    public static String getDelimiter(String numbers){
+        String delimiter = numbers.substring(1 + numbers.indexOf('['), numbers.lastIndexOf(']'));
+        return delimiter;
+    }
+
+    public static String getNumberWithoutDelimiterFormat(String numbers){
+        numbers = numbers.substring(numbers.indexOf("\n")+1);
+        System.out.println("numbers = " + numbers);
+        return numbers;
     }
 }
