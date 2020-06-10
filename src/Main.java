@@ -1,7 +1,7 @@
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(Add("3,$"));
+        //System.out.println(Add("4,2,1"));
     }
     
     public static int Add(String numbers){
@@ -22,16 +22,28 @@ public class Main {
         }
 
         // if input string contains of 2 numbers, add them and return the result
-
-            int a = 0, b =0;
+        if(numbers.split(",").length == 2) {
+            int a = 0, b = 0;
             try {
                 a = Integer.parseInt(numbers.split(",")[0]);
                 b = Integer.parseInt(numbers.split(",")[1]);
                 return a + b;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 return ((Integer.class.isInstance(a)) ? a : b);
             }
+        }
 
+        // allowing unknown number of numbers for add operation
+
+            String[] str = numbers.split(",");
+            int[] arr = new int[str.length];
+
+            int sum = 0;
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = Integer.parseInt(str[i]);
+                sum += arr[i];
+            }
+
+            return sum;
     }
 }
