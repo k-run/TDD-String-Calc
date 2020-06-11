@@ -83,28 +83,28 @@ public class Main {
 
     public static String getDelimiter(String numbers){
         StringBuilder delimitersList = new StringBuilder();
-        String numberSubstring = numbers.substring(2, numbers.indexOf("\\n"));
-        String openingBraces = numberSubstring.replaceAll("]", ",");
-        String spaces = openingBraces.replaceAll(" ", "");
-        String clsingBraces  = spaces.replaceAll("\\[", "");
-        String[] delimiterArray = clsingBraces.split(",");
 
+        String[] delimiterArray = numbers.substring(2, numbers.indexOf("\\n"))
+                .replaceAll("]", ",")
+                .replaceAll(" ", "")
+                .replaceAll("\\[", "")
+                .split(",");
 
         for (int i = 0; i < delimiterArray.length; i++) {
-            String delimiter = "";
+            StringBuilder delimiter = new StringBuilder();
 
             if(delimiterArray[i].length() > 1) {
                 int len = delimiterArray[i].length();
                 int count = 0;
                 while(count < len) {
-                    delimiter += "\\" + delimiterArray[i].charAt(count);
+                    delimiter.append("\\").append(delimiterArray[i].charAt(count));
                     count++;
                 }
             }
 
-            else delimiter = "\\" + delimiterArray[i];
+            else delimiter.append("\\").append(delimiterArray[i]);
 
-            delimiter += "|";
+            delimiter.append("|");
 
             delimitersList.append(delimiter);
         }
