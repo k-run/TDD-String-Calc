@@ -83,27 +83,38 @@ public class Main {
 
     public static String getDelimiter(String numbers){
         StringBuilder delimitersList = new StringBuilder();
+        String numberSubstring = numbers.substring(2, numbers.indexOf("\\n"));
+        String openingBraces = numberSubstring.replaceAll("]", ",");
+        String spaces = openingBraces.replaceAll(" ", "");
+        String clsingBraces  = spaces.replaceAll("\\[", "");
+        String[] delimiterArray = clsingBraces.split(",");
 
-        String[] delimiterArray = numbers.substring(2, numbers.indexOf("\\n"))
-                .replaceAll("]", ",")
-                .replaceAll("\\[", "")
-                .split(",");
 
         for (int i = 0; i < delimiterArray.length; i++) {
             String delimiter = "";
 
-            delimiter = "\\" + delimiterArray[i] + "|";
+            if(delimiterArray[i].length() > 1) {
+                int len = delimiterArray[i].length();
+                int count = 0;
+                while(count < len) {
+                    delimiter += "\\" + delimiterArray[i].charAt(count);
+                    count++;
+                }
+            }
+
+            else delimiter = "\\" + delimiterArray[i];
+
+            delimiter += "|";
 
             delimitersList.append(delimiter);
         }
 
         delimitersList.deleteCharAt(delimitersList.length()-1);
-
         return delimitersList.toString();
     }
 
     public static String getNumberWithoutDelimiterFormat(String numbers){
-        numbers = numbers.substring(numbers.indexOf("\\n") + 2);
+        numbers = numbers.substring(numbers.indexOf("\\n") + 2).replaceAll(" ", "");
         return numbers;
     }
 }
